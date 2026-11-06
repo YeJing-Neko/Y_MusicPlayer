@@ -1,0 +1,27 @@
+{
+  "name": "y-music-touch",
+  "version": "1.4.0",
+  "description": "Y_Music - local-first touch music player for interactive whiteboards",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "windowed": "electron . --windowed"
+  },
+  "keywords": [
+    "music",
+    "local",
+    "electron",
+    "whiteboard",
+    "netease"
+  ],
+  "author": "Y_Music",
+  "license": "MIT",
+  "type": "commonjs",
+  "dependencies": {
+    "iconv-lite": "^0.7.3",
+    "music-metadata": "^12.3.5"
+  },
+  "devDependencies": {
+    "electron": "^45.2.3"
+  }
+}

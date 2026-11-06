@@ -1,0 +1,193 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' file: data: https: http:; media-src 'self' file: blob: https: http:; style-src 'self' 'unsafe-inline'; script-src 'self'; connect-src 'self' https:;">
+  <title>Y_Music</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div id="boot" class="boot">
+    <div class="boot-logo"><span data-icon="leaf"></span></div>
+    <div class="boot-name">Y_Music</div>
+    <p>正在打开音乐库</p>
+  </div>
+
+  <div class="app" id="app" aria-hidden="true">
+    <div class="backdrop" id="backdrop"></div>
+    <div class="backdrop-wash"></div>
+
+    <aside class="sidebar">
+      <div class="brand" data-action="go-home">
+        <span class="brand-mark" data-icon="leaf"></span>
+        <div class="brand-copy"><strong>Y_Music</strong></div>
+      </div>
+
+      <nav class="side-nav" aria-label="音乐库">
+        <button class="nav-item" data-view="artists"><span class="nav-ic" data-icon="artist"></span><span>艺术家</span></button>
+        <button class="nav-item" data-view="albums"><span class="nav-ic" data-icon="album"></span><span>专辑</span></button>
+        <button class="nav-item" data-view="folders"><span class="nav-ic" data-icon="folder"></span><span>文件夹</span></button>
+        <button class="nav-item" data-view="home"><span class="nav-ic" data-icon="home"></span><span>首页</span></button>
+        <button class="nav-item" data-view="local"><span class="nav-ic" data-icon="note"></span><span>所有歌曲</span><b id="localCount" class="nav-badge">0</b></button>
+        <div class="nav-sep"></div>
+        <button class="nav-item" data-view="ranking"><span class="nav-ic" data-icon="bars"></span><span>听歌排行</span></button>
+        <button class="nav-item" data-view="recent"><span class="nav-ic" data-icon="clock"></span><span>最近播放</span></button>
+        <div class="nav-sep"></div>
+        <div class="playlist-nav-row">
+          <button class="nav-item" data-view="sections"><span class="nav-ic" data-icon="playlist"></span><span>歌单</span></button>
+          <button class="nav-plus" data-action="create-section" aria-label="新建歌单"><span data-icon="plus"></span></button>
+        </div>
+        <div class="side-playlists" id="sidebarPlaylists"></div>
+      </nav>
+
+      <div class="side-bottom">
+        <button class="nav-item" data-view="cloud"><span class="nav-ic" data-icon="cloud"></span><span>网易云音乐</span></button>
+      </div>
+    </aside>
+
+    <section class="main-shell">
+      <header class="main-header" id="titlebar">
+        <button class="round-btn back-btn" id="backBtn" data-action="back" aria-label="返回" hidden><span data-icon="chevronLeft"></span></button>
+        <label class="top-search" id="globalSearchWrap">
+          <span data-icon="search"></span>
+          <input id="globalSearch" type="search" placeholder="搜索歌曲" autocomplete="off" aria-label="搜索歌曲">
+        </label>
+        <div class="header-actions">
+          <button class="header-icon" data-action="scroll-top" title="回到顶部"><span data-icon="arrowUp"></span></button>
+          <button class="header-icon" data-action="locate-current" title="定位当前歌曲"><span data-icon="target"></span></button>
+          <button class="header-icon" data-action="open-settings" title="设置"><span data-icon="settings"></span></button>
+          <button class="header-icon" data-action="immersive" title="大图模式"><span data-icon="expand"></span></button>
+          <span class="window-sep"></span>
+          <div class="window-controls">
+            <button class="window-btn" data-window="min" aria-label="最小化"><span data-icon="minus"></span></button>
+            <button class="window-btn" data-window="max" aria-label="最大化"><span data-icon="window"></span></button>
+            <button class="window-btn close" data-window="close" aria-label="关闭"><span data-icon="close"></span></button>
+          </div>
+        </div>
+      </header>
+
+      <main class="content" id="main">
+        <div class="view-loading"><span></span><span></span><span></span></div>
+      </main>
+
+      <footer class="playerbar" id="playerbar">
+        <div class="pb-track">
+          <button class="pb-art" id="pbArt" data-action="immersive" aria-label="打开全屏播放"></button>
+          <div class="pb-copy">
+            <button class="pb-title" id="pbTitle" data-action="immersive">未在播放</button>
+            <button class="pb-artist" id="pbArtist" data-action="go-current-artist">从本地曲库开始</button>
+          </div>
+        </div>
+        <div class="pb-center">
+          <div class="transport">
+            <button class="transport-sm" id="modeBtn" data-action="cycle-mode" title="播放模式"><span data-icon="repeat"></span></button>
+            <button class="transport-md" data-action="prev" title="上一首"><span data-icon="prev"></span></button>
+            <button class="play-main" id="playBtn" data-action="toggle-play" aria-label="播放"><span data-icon="play"></span></button>
+            <button class="transport-md" data-action="next" title="下一首"><span data-icon="next"></span></button>
+            <button class="transport-sm" data-action="queue" title="播放队列"><span data-icon="queue"></span></button>
+          </div>
+          <div class="progress-row">
+            <span id="currentTime">0:00</span>
+            <input class="progress" id="progress" type="range" min="0" max="1000" value="0" aria-label="播放进度">
+            <span id="totalTime">0:00</span>
+          </div>
+        </div>
+        <div class="pb-tools">
+          <button class="tool-btn sleep-tool" data-action="sleep" title="睡眠定时器"><span data-icon="moon"></span><span id="sleepLabel" class="sleep-label"></span></button>
+          <button class="tool-btn" data-action="immersive" title="全屏歌词"><span data-icon="lyrics"></span></button>
+          <div class="volume-wrap">
+            <button class="tool-btn volume-btn" data-action="mute" id="muteBtn" title="静音"><span data-icon="volume"></span></button>
+            <input class="volume" id="volume" type="range" min="0" max="1" step="0.01" value="0.8" aria-label="音量">
+          </div>
+        </div>
+      </footer>
+    </section>
+  </div>
+
+  <div class="overlay immersive" id="immersive" hidden>
+    <div class="immersive-bg" id="immersiveBg"></div>
+    <div class="immersive-shade"></div>
+    <div class="immersive-inner">
+      <header class="imm-top">
+        <div class="imm-brand"><span class="brand-mark small" data-icon="leaf"></span><div><b>正在播放</b><small id="immSource">LOCAL LIBRARY</small></div></div>
+        <div class="imm-actions">
+          <button class="glass-btn fav-toggle" data-action="favorite" aria-label="收藏"><span data-icon="star"></span></button>
+          <button class="glass-btn" data-action="close-immersive" aria-label="关闭"><span data-icon="close"></span></button>
+        </div>
+      </header>
+      <div class="imm-body">
+        <div class="imm-left">
+          <div class="imm-art" id="immArt"></div>
+          <div class="imm-track">
+            <h2 id="immTitle">未在播放</h2>
+            <p id="immArtist">从曲库选择一首歌</p>
+          </div>
+          <div class="imm-progress">
+            <input class="progress" id="immProgress" type="range" min="0" max="1000" value="0" aria-label="播放进度">
+            <div><span id="immCurrent">0:00</span><span id="immTotal">0:00</span></div>
+          </div>
+          <div class="imm-controls">
+            <button class="glass-btn" data-action="cycle-mode"><span data-icon="repeat"></span></button>
+            <button class="glass-btn large" data-action="prev"><span data-icon="prev"></span></button>
+            <button class="play-main huge" data-action="toggle-play"><span data-icon="play"></span></button>
+            <button class="glass-btn large" data-action="next"><span data-icon="next"></span></button>
+            <button class="glass-btn" data-action="queue"><span data-icon="queue"></span></button>
+          </div>
+          <div class="imm-tools">
+            <button class="imm-text-btn" data-action="import-lyrics" id="importLyricBtn"><span data-icon="download"></span> 导入 LRC</button>
+            <span class="imm-source" id="lyricSource"></span>
+          </div>
+          <div class="imm-offset">
+            <button class="imm-text-btn" data-action="offset-down">歌词提前 0.5s</button>
+            <span id="offsetLabel">同步偏移 0.0s</span>
+            <button class="imm-text-btn" data-action="offset-up">歌词延后 0.5s</button>
+          </div>
+        </div>
+        <div class="imm-lyrics" id="immLyrics">
+          <div class="lyric-empty large"><span data-icon="lyrics"></span><p>正在等待歌词</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="overlay drawer" id="queueDrawer" hidden>
+    <div class="drawer-card">
+      <header class="drawer-head">
+        <div><span class="drawer-eyebrow">UP NEXT</span><h2>播放列表 <span id="queueCount">0</span></h2></div>
+        <div class="drawer-actions"><button class="drawer-text" data-action="clear-queue">清空</button><button class="round-btn" data-action="close-queue"><span data-icon="close"></span></button></div>
+      </header>
+      <div class="queue-list" id="queueList"></div>
+    </div>
+  </div>
+
+  <div class="overlay modal-layer" id="modalLayer" hidden>
+    <div class="modal-card" id="modalCard"></div>
+  </div>
+
+  <aside class="announcement-toast" id="announcementToast" hidden>
+    <div class="announcement-top">
+      <span class="announcement-icon" data-icon="sparkles"></span>
+      <span class="announcement-kicker">VERSION NOTE</span>
+      <span class="announcement-version" id="announcementVersion"></span>
+      <button class="announcement-close" data-action="close-announcement" aria-label="关闭公告"><span data-icon="close"></span></button>
+    </div>
+    <h3 id="announcementTitle">版本提示</h3>
+    <p id="announcementPreview"></p>
+    <div class="announcement-foot">
+      <button class="btn primary small" data-action="view-announcement">查看公告</button>
+      <span class="announcement-countdown" id="announcementCountdown">10s 后自动关闭</span>
+    </div>
+    <div class="announcement-progress"><i id="announcementProgress"></i></div>
+  </aside>
+
+  <div class="toast-wrap" id="toastWrap"></div>
+  <div class="scan-toast" id="scanToast" hidden>
+    <div class="scan-toast-top"><span class="scan-spinner"></span><b id="scanTitle">正在扫描曲库</b><span id="scanPercent">0%</span></div>
+    <div class="scan-bar"><i id="scanBar"></i></div>
+    <p id="scanDetail">读取音频与本地歌词…</p>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
