@@ -1,3 +1,5 @@
+'use strict';
+
 const { contextBridge, ipcRenderer } = require('electron');
 
 contextBridge.exposeInMainWorld('musicAPI', {
@@ -16,15 +18,13 @@ contextBridge.exposeInMainWorld('musicAPI', {
   getPlayerState: () => ipcRenderer.invoke('player:get'),
   savePlayerState: (state) => ipcRenderer.invoke('player:save', state),
   openData: () => ipcRenderer.invoke('app:openData'),
+  openAnnouncement: () => ipcRenderer.invoke('app:openAnnouncement'),
   toggleFullscreen: () => ipcRenderer.invoke('app:fullscreen'),
   minimize: () => ipcRenderer.invoke('app:minimize'),
   toggleMaximize: () => ipcRenderer.invoke('app:toggleMaximize'),
   close: () => ipcRenderer.invoke('app:close'),
-  neteaseSearch: (q) => ipcRenderer.invoke('netease:search', q),
-  neteaseResolve: (id) => ipcRenderer.invoke('netease:resolve', id),
-  neteaseLyrics: (id) => ipcRenderer.invoke('netease:lyrics', id),
-  onScanProgress: (cb) => {
-    const listener = (_e, data) => cb(data);
+  onScanProgress: (callback) => {
+    const listener = (_event, data) => callback(data);
     ipcRenderer.on('scan:progress', listener);
     return () => ipcRenderer.removeListener('scan:progress', listener);
   }

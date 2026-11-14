@@ -6,16 +6,27 @@
 
 A local-first, touch-friendly music player for interactive whiteboards.
 
-![Platform](https://img.shields.io/badge/Platform-Windows%2010%20%2F%2011-4f8aa8?style=flat-square)
+![Version](https://img.shields.io/badge/Version-2.0.0-0a84ff?style=flat-square)
+![Platform](https://img.shields.io/badge/Platform-Windows%20%7C%20macOS%20%7C%20Linux-4f8aa8?style=flat-square)
 ![Electron](https://img.shields.io/badge/Electron-45-47848F?style=flat-square&logo=electron&logoColor=white)
 ![Local First](https://img.shields.io/badge/Local--First-No%20Server-5f8f71?style=flat-square)
 ![License](https://img.shields.io/badge/License-MIT-c08a62?style=flat-square)
 
 </div>
 
-Y_Music 是一个为**触摸白板、横屏展示和桌面大屏**设计的本地音乐播放器。它不依赖音乐服务器：扫描本地文件夹、读取音频标签与封面、自动匹配歌词，歌单、收藏和播放记录全部保存在程序自己的 `data/` 目录里。
+Y_Music 是一个为**触摸白板、横屏展示和桌面大屏**设计的本地音乐播放器。它不依赖音乐服务器：扫描本地文件夹、读取音频标签与封面、自动匹配歌词，歌单、收藏和播放记录全部保存在独立的 `data/` 目录里。2.0 版本加入流光启航界面、iOS / 网易云主题和统一线性图标。
 
-界面结构参考 [Sylvakru](https://github.com/AfalpHy/sylvakru) 的浅色磨砂风格，全屏歌词动效参考 [Lyricify](https://github.com/WXRIW/Lyricify-App)。使用 Electron + 原生 Web Audio 实现，Windows 10 / 11 开箱即用。
+界面结构参考 [Sylvakru](https://github.com/AfalpHy/sylvakru) 的浅色磨砂风格，全屏歌词动效参考 [Lyricify](https://github.com/WXRIW/Lyricify-App)，2.0 启航界面使用纯 CSS 流光与极光动画。使用 Electron + 原生 Web Audio 实现，支持 Windows、macOS 和 Linux。
+
+## 2.0 更新
+
+这是 Y_Music 的第二个大版本，重点是把播放器真正做成完整的本地音乐空间：
+
+- **2.0 流光启航**：首次启动展示全屏极光 / 流光界面，支持「开始聆听」与「跳过」，可在设置中关闭每次启动展示。
+- **真正的全局主题**：新增 iOS 与网易云主题，页面、侧栏、卡片、搜索框、按钮、播放器、进度条和歌单图标会一起切换，而不是只换强调色。
+- **统一图标系统**：界面和歌单全部改用内置线性 SVG 图标，并统一歌单封面左上角图标的位置与尺寸。
+- **完全本地化**：移除在线音乐接口与相关搜索入口，曲库、歌词、歌单和播放记录只保存在本机。
+- **工程重构**：主进程与渲染进程拆分为独立模块，加入 electron-builder 打包和三平台 GitHub Actions 构建。
 
 ![Y_Music 主界面](preview.png)
 
@@ -25,7 +36,7 @@ Y_Music 是一个为**触摸白板、横屏展示和桌面大屏**设计的本�
 
 - **本地优先**：曲库、封面、歌词、歌单都在本机，断网也能完整使用。
 - **为大屏和触摸设计**：更大的按钮、可调播放器高度、可调歌词字号、触屏手势。
-- **歌单跟着文件夹走**：设置与歌单保存为普通 JSON，复制整个程序目录即可带到另一台电脑。
+- **歌单跟着数据走**：设置与歌单保存为普通 JSON，复制 `data/`（或使用免安装版）即可带到另一台电脑。
 - **不只好看**：自动歌词、内嵌封面、睡眠定时器、全局主题、丝滑动效。
 - **无账号体系**：不需要登录，不上传个人数据。
 
@@ -59,11 +70,21 @@ Y_Music 是一个为**触摸白板、横屏展示和桌面大屏**设计的本�
 
 ### 全局个性化
 
-- 6 套主题色：海盐、青苔、蜜桃、樱粉、雾紫、石墨。
+- 8 套全局主题：海盐、青苔、蜜桃、樱粉、雾紫、石墨、iOS、网易云。iOS 与网易云会整体替换页面、侧栏、卡片、按钮、播放器和图标样式，而不只是换强调色。
 - 3 档动效：丝滑 / 轻盈 / 关闭。
 - 可调封面氛围、播放器高度（76–150px）、歌词字号（80%–140%）。
+- 所有界面图标统一使用内置线性 SVG 图标，不再混用 emoji。
 - 设置实时写入 `data/settings.json`，所有页面同步生效。
-- 主题、动效和播放器尺寸会随程序目录一起迁移。
+- 主题、动效和播放器尺寸会随数据目录一起迁移。
+
+### 2.0 启航界面
+
+![2.0 启航界面](welcome.png)
+
+- 启动时展示全屏流光 / 极光启动页：`2.0 全新启航`（默认开启）。
+- 「开始聆听」或「跳过」进入主页；`Enter` / `Space` / `Esc` 也可进入。
+- 设置中可开关「每次启动时展示 2.0 启航界面」，选择会持久化到 `data/settings.json`。
+- 尊重系统「减少动态效果」设置，并提供低动态模式。
 
 ### 触摸大屏增强
 
@@ -84,8 +105,8 @@ Y_Music 是一个为**触摸白板、横屏展示和桌面大屏**设计的本�
 ```json
 {
   "enabled": true,
-  "version": "v1.4.0",
-  "title": "Y_Music 版本提示",
+  "version": "v2.0.0",
+  "title": "Y_Music 2.0 全新启航",
   "file": "announcement.md",
   "autoCloseSeconds": 10
 }
@@ -93,30 +114,26 @@ Y_Music 是一个为**触摸白板、横屏展示和桌面大屏**设计的本�
 
 把 `enabled` 改为 `false` 即可关闭启动提示。修改后重启生效；也可以在「设置 → 本地数据 → 本地公告」再次查看。
 
-### 网易云公开接口（可选）
-
-- 支持公开曲库搜索与在线播放，搜索时批量补全封面和专辑信息。
-- 在线播放受版权、会员和地区限制；无法获取播放地址时会明确提示，不影响本地播放。
-- 在线歌曲不会写入本地曲库；在线歌词只在播放时读取。
-- 这是一个非官方公开接口，可能随平台策略调整而失效。本地功能不依赖它。
-
 ## 快速开始
 
-### 环境
+### 直接运行
 
-- Windows 10 / 11
-- 从源码运行需要 Node.js 20 或更高版本
+从 GitHub Releases 下载对应系统的安装包：
+
+- Windows：`Y_Music-Setup-2.0.0.exe`（安装版）或 `Y_Music-2.0.0-portable.exe`（免安装版）
+- macOS：`Y_Music-2.0.0-*.dmg`
+- Linux：`Y_Music-2.0.0-*.AppImage` 或 `.deb`
+
+Windows 未签名安装包可能触发 SmartScreen，选择「更多信息 → 仍要运行」即可。免安装版把数据保存在 exe 同级的 `data/`；安装版保存在用户数据目录，见下方「数据与隐私」。
 
 ### 从源码运行
 
-从本仓库页面选择 **Code → Download ZIP**，或使用 Git 拉取源码，然后在项目根目录执行：
+需要 Node.js 20 或更高版本。Windows、macOS 和 Linux 都可以直接运行：
 
 ```bash
 npm install
 npm start
 ```
-
-首次启动且没有曲库数据时，会自动载入 `demo_music` 中的 6 首示例歌曲和歌词。
 
 也可以只打开窗口、不自动最大化：
 
@@ -124,7 +141,25 @@ npm start
 npm run windowed
 ```
 
-### 便携目录
+首次启动且没有曲库数据时，会自动载入 `demo_music` 中的 6 首示例歌曲和歌词。
+
+### 构建安装包
+
+```bash
+npm install
+
+# 当前系统
+npm run build
+
+# 指定平台（建议在对应系统上构建）
+npm run build:win
+npm run build:mac
+npm run build:linux
+```
+
+构建结果在 `release/`。Windows 产出 NSIS 安装版和 portable 单文件版；macOS 产出 dmg/zip；Linux 产出 AppImage/deb。仓库内的 `.github/workflows/build.yml` 也会在推送 `v*` 标签或手动触发时，用三个系统分别构建并上传产物。
+
+### 便携目录（源码版）
 
 如果目录已经包含 `node_modules`，可以直接双击：
 
@@ -132,7 +167,7 @@ npm run windowed
 启动 Y_Music.cmd
 ```
 
-程序是绿色便携的：把整个目录复制到另一台 Windows 电脑后仍可使用。若 `node_modules` 被删除，执行一次 `npm install` 即可恢复。
+把整个源码目录复制到另一台 Windows 电脑后仍可使用；若 `node_modules` 被删除，执行一次 `npm install` 即可恢复。
 
 ### 使用自己的音乐
 
@@ -145,7 +180,15 @@ npm run windowed
 
 ## 数据与隐私
 
-所有个人数据都在程序目录下的 `data/`：
+个人数据保存在 `data/`，位置随运行方式变化：
+
+| 运行方式 | 数据目录 |
+| --- | --- |
+| 源码 / 开发 | 项目根目录 `data/` |
+| Windows 免安装版 | exe 同级的 `data/` |
+| Windows 安装版 | `%APPDATA%\Y_Music\data` |
+| macOS | `~/Library/Application Support/Y_Music/data` |
+| Linux | `~/.config/Y_Music/data` |
 
 ```text
 data/
@@ -159,12 +202,11 @@ data/
 └─ lyrics/            内嵌或手动导入的歌词
 ```
 
-- 程序不收集、不上传个人数据。
-- 在线搜索只会把关键词发送到网易云公开接口。
+- 程序不收集、不上传个人数据，也没有任何在线音乐接口。
 - 主题、动效、歌单、收藏和播放记录都是全局配置，不依赖浏览器缓存。
 - 曲目使用稳定的元数据指纹 ID；移动音乐目录后重新选择文件夹并扫描，原歌单、收藏和播放记录仍能匹配。
 
-**备份方式**：关闭程序后复制整个 `data/` 目录即可。恢复时把它放回程序目录。
+**备份方式**：关闭程序后复制整个 `data/` 目录即可。恢复时把它放回对应位置。免安装版可以连同 exe 一起复制。
 
 ## 快捷键
 
@@ -187,17 +229,45 @@ data/
 
 ```text
 .
+├─ src/
+│  ├─ main/
+│  │  ├─ index.js         主进程入口、生命周期与启动流程
+│  │  ├─ window.js        无边框窗口、标题栏与缩放
+│  │  ├─ ipc.js           IPC 注册与参数校验
+│  │  ├─ library.js       音乐扫描、元数据、封面/歌词缓存
+│  │  ├─ lyrics.js        LRC 解析与编码处理
+│  │  ├─ settings.js      外观与曲库设置持久化
+│  │  ├─ sections.js      歌单与收藏
+│  │  ├─ player-state.js  队列、最近播放、播放次数
+│  │  ├─ announcement.js  本地公告
+│  │  └─ ...              paths / state / migration 等
+│  └─ preload/index.js    contextBridge API
 ├─ app/
-│  ├─ index.html       页面结构
-│  ├─ styles.css       主题、布局与动效
-│  └─ app.js           播放器、歌词、歌单、设置逻辑
-├─ demo_music/         示例歌曲与 LRC
-├─ data/               本地数据（不提交）
-├─ main.js             Electron 主进程、扫描、IPC、网易云接口
-├─ preload.js          contextBridge API
-├─ preview.png         主界面预览
-├─ customization.png   外观设置预览
-├─ 启动 Y_Music.cmd    Windows 便携启动脚本
+│  ├─ index.html          页面结构
+│  ├─ styles.css          主题、布局与歌词动效
+│  └─ js/                 渲染进程模块（按加载顺序共享全局作用域）
+│     ├─ core.js          ICONS、主题、全局状态
+│     ├─ views.js         首页/曲库/艺术家/专辑/文件夹
+│     ├─ now-playing.js   底部播放器与队列
+│     ├─ lyrics.js        歌词渲染、偏移与卡拉 OK 渐变
+│     ├─ playback.js      播放控制与进度
+│     ├─ scan.js          扫描进度
+│     ├─ sections.js      歌单交互
+│     ├─ ui.js            设置、弹层与通知
+│     ├─ actions.js       业务动作
+│     ├─ events.js        事件绑定
+│     ├─ sleep.js         睡眠定时
+│     ├─ announcement.js  启动公告渲染
+│     ├─ welcome.js       2.0 流光启航界面
+│     └─ main.js          初始化入口
+├─ build/                 安装包图标
+├─ .github/workflows/     三平台构建工作流
+├─ demo_music/            示例歌曲与 LRC
+├─ data/                  本地数据（不提交）
+├─ preview.png            主界面预览
+├─ customization.png      外观设置预览
+├─ welcome.png            2.0 启航界面预览
+├─ 启动 Y_Music.cmd       Windows 源码便携启动脚本
 ├─ LICENSE
 └─ README.md
 ```
@@ -212,19 +282,21 @@ npm start
 npm run windowed
 
 # 打开开发者工具
-npx electron . --devtools
+npm run devtools
+
+# 只打包成未压缩目录，便于调试
+npm run pack
 ```
 
-界面代码位于 `app/`；曲库扫描、元数据、歌词缓存、歌单持久化和网易云请求位于 `main.js`。前后端通过 `preload.js` 暴露的 `window.musicAPI` 通信，渲染进程不开启 Node 集成。
+主进程位于 `src/main/`，按扫描、歌词、设置、歌单、播放状态、公告和窗口职责拆分；渲染进程位于 `app/js/`，使用经典脚本按固定顺序加载，共享同一全局作用域，避免引入构建工具。前后端通过 `src/preload/index.js` 暴露的 `window.musicAPI` 通信，渲染进程不开启 Node 集成。
 
-技术栈：Electron、原生 HTML / CSS / JavaScript、Web Audio、`music-metadata`、`iconv-lite`。
+技术栈：Electron、原生 HTML / CSS / JavaScript、Web Audio、`music-metadata`、`iconv-lite`、electron-builder。
 
 ## 已知限制
 
 - APE、WMA、DSD 等 Chromium 无法直接解码的格式暂未纳入；可以转为 FLAC / MP3 后使用。
 - 音乐目录被移动或清空时，程序会提示「歌曲文件缺失」，不会直接删除索引；重新扫描或选择文件夹即可恢复。
-- 网易云公开接口可能因平台策略变化而失效，本地播放不受影响。
-- 当前以源码 / 便携目录为主，尚未配置安装包生成流程。
+- macOS / Linux 安装包需要在对应系统上构建；未签名版本会触发系统安全提示。
 - 示例音乐与封面由脚本合成，仅用于演示。
 
 ## 常见问题
@@ -235,8 +307,8 @@ npx electron . --devtools
 **换电脑后歌单还在，但歌曲显示缺失？**  
 复制的是程序目录而不是音乐文件，或者音乐路径发生了变化。重新选择音乐文件夹并扫描即可；歌单引用会通过稳定 ID 恢复。
 
-**在线歌曲无法播放？**  
-受版权、会员或地区限制。这个是可选功能，不影响本地曲库。
+**启动界面不显示？**  
+打开「设置 → 外观与动效 → 启动界面」，确认开关已开启。关闭后会直接进入首页，不影响其他功能。
 
 **如何清空数据？**  
 关闭程序后备份并删除 `data/`，下次启动会重新建立空库；删除前请确认不需要现有歌单和收藏。
@@ -253,7 +325,7 @@ npx electron . --devtools
 
 本项目基于 [MIT License](LICENSE) 开源。
 
-音乐、封面和歌词的版权归各自权利人所有。本项目不提供、不存储任何受版权保护的音乐资源；请使用自己拥有合法使用权的音频文件。网易云相关能力仅调用公开接口，与网易云音乐官方无关。
+音乐、封面和歌词的版权归各自权利人所有。本项目不提供、不存储任何受版权保护的音乐资源；请使用自己拥有合法使用权的音频文件。
 
 ---
 

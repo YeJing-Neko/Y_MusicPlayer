@@ -1,27 +1,96 @@
 {
   "name": "y-music-touch",
-  "version": "1.4.0",
+  "version": "2.0.0",
   "description": "Y_Music - local-first touch music player for interactive whiteboards",
-  "main": "main.js",
+  "main": "src/main/index.js",
   "scripts": {
     "start": "electron .",
-    "windowed": "electron . --windowed"
+    "windowed": "electron . --windowed",
+    "devtools": "electron . --windowed --devtools",
+    "pack": "electron-builder --dir",
+    "build": "electron-builder",
+    "build:win": "electron-builder --win",
+    "build:mac": "electron-builder --mac",
+    "build:linux": "electron-builder --linux"
   },
   "keywords": [
     "music",
     "local",
     "electron",
-    "whiteboard",
-    "netease"
+    "whiteboard"
   ],
-  "author": "Y_Music",
+  "author": "夜静 (YeJing-Neko)",
   "license": "MIT",
+  "homepage": "https://github.com/YeJing-Neko",
+  "build": {
+    "appId": "com.yejing.y-music",
+    "productName": "Y_Music",
+    "copyright": "Copyright © 2026 夜静 (YeJing-Neko)",
+    "asar": true,
+    "npmRebuild": false,
+    "electronDist": "node_modules/electron/dist",
+    "directories": {
+      "output": "release",
+      "buildResources": "build"
+    },
+    "files": [
+      "src/**/*",
+      "app/**/*",
+      "package.json"
+    ],
+    "extraResources": [
+      {
+        "from": "demo_music",
+        "to": "demo_music"
+      }
+    ],
+    "win": {
+      "icon": "build/icon.ico",
+      "target": [
+        "nsis",
+        "portable"
+      ]
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "perMachine": false,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "Y_Music",
+      "artifactName": "Y_Music-Setup-${version}.${ext}"
+    },
+    "portable": {
+      "artifactName": "Y_Music-${version}-portable.${ext}"
+    },
+    "mac": {
+      "icon": "build/icon.png",
+      "category": "public.app-category.music",
+      "target": [
+        "dmg",
+        "zip"
+      ],
+      "artifactName": "Y_Music-${version}-${arch}.${ext}"
+    },
+    "linux": {
+      "icon": "build/icon.png",
+      "category": "AudioVideo",
+      "executableName": "y-music",
+      "maintainer": "夜静 (YeJing-Neko)",
+      "target": [
+        "AppImage",
+        "deb"
+      ],
+      "artifactName": "Y_Music-${version}-${arch}.${ext}"
+    }
+  },
   "type": "commonjs",
   "dependencies": {
     "iconv-lite": "^0.7.3",
     "music-metadata": "^12.3.5"
   },
   "devDependencies": {
-    "electron": "^45.2.3"
+    "electron": "^45.2.3",
+    "electron-builder": "^26.18.0"
   }
 }

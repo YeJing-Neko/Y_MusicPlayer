@@ -14,6 +14,30 @@
     <p>正在打开音乐库</p>
   </div>
 
+  <div class="welcome-screen" id="welcomeScreen" hidden aria-hidden="true">
+    <div class="welcome-aurora" aria-hidden="true">
+      <i class="wa wa-one"></i><i class="wa wa-two"></i><i class="wa wa-three"></i><i class="wa wa-four"></i>
+      <span class="wa-beam beam-one"></span><span class="wa-beam beam-two"></span>
+    </div>
+    <div class="welcome-grid" aria-hidden="true"></div>
+    <div class="welcome-noise" aria-hidden="true"></div>
+    <div class="welcome-stage">
+      <header class="welcome-top">
+        <span class="welcome-brand"><span class="welcome-mark" data-icon="leaf"></span><b>Y_Music</b></span>
+        <button class="welcome-skip" data-action="dismiss-welcome">跳过<span data-icon="arrowRight"></span></button>
+      </header>
+      <div class="welcome-main">
+        <h1 class="welcome-title"><span class="welcome-two">2.0</span><span class="welcome-cn">全新启航</span></h1>
+        <p class="welcome-sub">让音乐回到本地，每一次打开都像一次出发。</p>
+        <button class="welcome-start" data-action="dismiss-welcome" aria-label="开始使用 Y_Music 2.0">
+          <span class="welcome-start-glow"></span>
+          <span class="welcome-start-text">开始聆听</span>
+          <span class="welcome-start-arrow" data-icon="arrowRight"></span>
+        </button>
+      </div>
+    </div>
+  </div>
+
   <div class="app" id="app" aria-hidden="true">
     <div class="backdrop" id="backdrop"></div>
     <div class="backdrop-wash"></div>
@@ -42,7 +66,7 @@
       </nav>
 
       <div class="side-bottom">
-        <button class="nav-item" data-view="cloud"><span class="nav-ic" data-icon="cloud"></span><span>网易云音乐</span></button>
+        <button class="nav-item" data-action="open-settings"><span class="nav-ic" data-icon="settings"></span><span>设置</span></button>
       </div>
     </aside>
 
@@ -188,6 +212,19 @@
     <p id="scanDetail">读取音频与本地歌词…</p>
   </div>
 
-  <script src="app.js"></script>
+  <script src="js/core.js"></script>
+  <script src="js/views.js"></script>
+  <script src="js/now-playing.js"></script>
+  <script src="js/lyrics.js"></script>
+  <script src="js/playback.js"></script>
+  <script src="js/scan.js"></script>
+  <script src="js/sections.js"></script>
+  <script src="js/ui.js"></script>
+  <script src="js/actions.js"></script>
+  <script src="js/events.js"></script>
+  <script src="js/sleep.js"></script>
+  <script src="js/announcement.js"></script>
+  <script src="js/welcome.js"></script>
+  <script src="js/main.js"></script>
 </body>
 </html>

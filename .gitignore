@@ -1,0 +1,28 @@
+# dependencies
+node_modules/
+
+# user data (local library, playlists, settings, announcements, covers, lyrics)
+data/
+
+# local reference checkouts
+sylvakru_ref/
+lyricify_ref/
+
+# build output
+dist/
+out/
+release/
+*.tmp
+
+# local test captures
+smoke*.png
+packaged*.png
+portable*.png
+ui-*.png
+
+# logs and editor files
+*.log
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
